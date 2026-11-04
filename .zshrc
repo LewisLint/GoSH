@@ -53,7 +53,6 @@ alias ig='ristretto *'
 #}
 #bindkey -M viins 'jj' vicmd
 
-bindkey -s '^L' 'clear && printf "\\e[3J"\n'
 #bindkey -s '^A' 'sudo '
 #Enable Vi Mode
 bindkey -v
@@ -137,12 +136,19 @@ build_arrow() {
         echo "%F{green}❯%f"
     else
         # Failure: Red exit code followed by a Red arrow
-        echo "%F{red} $exit_code ❯%f"
+        echo "%F{red}$exit_code ❯%f"
     fi
 }
 
 # Construct the final prompt
-PROMPT='%F{blue}%~%f $(build_arrow) '
+
+
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats '(%b)'
+setopt PROMPT_SUBST
+
+PROMPT='%F{#9CCFD8}%B%~%b%f $(build_arrow) '
 
 # aliases:
 alias ls='ls -aFBh --color=auto'
@@ -229,21 +235,20 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 typeset -A ZSH_HIGHLIGHT_STYLES
 
 # Base text colors (Foam / Iris / Pine)
-ZSH_HIGHLIGHT_STYLES[command]='fg=116'          # Foam (Muted cyan/teal)
-ZSH_HIGHLIGHT_STYLES[alias]='fg=116'            # Foam
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=182'          # Iris (Soft purple)
-ZSH_HIGHLIGHT_STYLES[function]='fg=182'         # Iris
-ZSH_HIGHLIGHT_STYLES[precommand]='fg=31'        # Pine (Deep aqua)
+ZSH_HIGHLIGHT_STYLES[command]='fg=116,bold'  
+ZSH_HIGHLIGHT_STYLES[alias]='fg=116'         
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=182,italic'
+ZSH_HIGHLIGHT_STYLES[function]='fg=182,bold' 
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=31,bold'
 
 # Misspelled or invalid commands (Love)
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=210'    # Love (Soft rose/red)
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=210'
 
 # Arguments and Options (Gold / Rose / Muted)
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=216' # Gold (Warm gold/orange)
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=216' # Gold
-ZSH_HIGHLIGHT_STYLES[string]='fg=181'               # Rose (Dusty pink)
-ZSH_HIGHLIGHT_STYLES[path]='fg=116,underline' # Foam with underline
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=216,bold'
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=216,bold'
+ZSH_HIGHLIGHT_STYLES[string]='fg=181,bold'              
+ZSH_HIGHLIGHT_STYLES[path]='fg=116,underline'
 
 # Comments (Muted)
-#ZSH_HIGHLIGHT_STYLES[comment]='fg=243,italic'       # Muted gray-purple
-
+#ZSH_HIGHLIGHT_STYLES[comment]='fg=243,italic'
