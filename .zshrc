@@ -287,3 +287,9 @@ last-arg() {
 zle -N last-arg
 bindkey '\e.' last-arg
 bindkey '≥' last-arg
+
+setopt HIST_IGNORE_SPACE
+zshaddhistory() {
+    [[ "$1" == "clear" ]] && return 1
+    return 0
+}
