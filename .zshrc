@@ -149,6 +149,14 @@ zstyle ':vcs_info:git:*' formats '(%b)'
 setopt PROMPT_SUBST
 
 PROMPT='%F{#9CCFD8}%B%~%b%f $(build_arrow) '
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt INC_APPEND_HISTORY
+setopt AUTO_CD
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+
 
 # aliases:
 alias ls='ls -aFBh --color=auto'
@@ -232,6 +240,7 @@ fi
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Rosé Pine color mapping for zsh-syntax-highlighting
+# type sudo pacman -S zsh-history-substring-search zsh-syntax-highlighting
 typeset -A ZSH_HIGHLIGHT_STYLES
 
 # Base text colors (Foam / Iris / Pine)
@@ -252,3 +261,29 @@ ZSH_HIGHLIGHT_STYLES[path]='fg=116,underline'
 
 # Comments (Muted)
 #ZSH_HIGHLIGHT_STYLES[comment]='fg=243,italic'
+
+
+
+source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+
+bindkey '^[k' history-substring-search-up
+bindkey '^[j' history-substring-search-down
+bindkey '˚' history-substring-search-up
+bindkey '∆' history-substring-search-down
+# ZLE BULLSHIT -- 
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^[;' edit-command-line
+bindkey '…' edit-command-line
+
+
+export EDITOR=vim
+export VISUAL=vim
+
+last-arg() {
+    LBUFFER+="${(Q)${(z)history[$((HISTCMD-1))]}[-1]}"
+}
+
+zle -N last-arg
+bindkey '\e.' last-arg
+bindkey '≥' last-arg
