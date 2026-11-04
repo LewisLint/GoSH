@@ -96,7 +96,11 @@ Plug 'dense-analysis/ale'
 Plug 'luochen1990/rainbow'
 Plug 'jiangmiao/auto-pairs'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-ale.vim'
+
 call plug#end()
+
 
 " Keep vim-go's syntax, but let ALE own Go diagnostics and formatting.
 let g:go_gopls_enabled = 0
@@ -200,6 +204,9 @@ highlight LspSemanticMethod guifg=#9ccfd8 ctermfg=Cyan gui=bold cterm=bold
 highlight LspSemanticType guifg=#31748f ctermfg=Blue gui=bold cterm=bold
 highlight LspSemanticString guifg=#f6c177 ctermfg=Yellow
 highlight LspSemanticNumber guifg=#c4a7e7 ctermfg=Magenta
+
+
+
 let g:lsp_document_highlight_enabled = 1
 let g:lsp_document_highlight_delay = 0
 " Completion menu
@@ -212,10 +219,20 @@ highlight Pmenu      guibg=#1f1d2e guifg=#e0def4
 highlight PmenuSel   guibg=#31748f guifg=#e0def4 gui=bold
 
 " Slight transparency
-set pumheight=12
+set pumheight=5
 highlight PmenuSbar guibg=#26233a
 highlight PmenuThumb guibg=#9ccfd8
 let g:lsp_completion_documentation_enabled = 0
+
+" --- Ctrl+j / Ctrl+k Completion Controls ---
+" Ctrl+j to go down the list, Ctrl+k to go up
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+
+" Enter selects the item and closes the menu cleanly
+inoremap <expr> <CR>  pumvisible() ? "\<C-y>" : "\<CR>"
+let g:ale_completion_enabled = 1
+
 " run go install golang.org/x/tools/cmd/goimports@latest
 
 

@@ -11,6 +11,7 @@ HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
+setopt PROMPT_SUBST
 # Use modern completion system
 autoload -Uz compinit
 compinit
@@ -36,7 +37,6 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-alias ls="ls -a --colo=auto"
 alias ll="ls -la"
 alias v="vi"
 alias '^l'="clear"
@@ -110,9 +110,9 @@ zle -N zle-line-init
 KEYTIMEOUT=15
 
 bindkey -M vicmd '?' history-incremental-search-backward
-#bindkey -v # Enables vim mode
 alias ytdlp='yt-dlp -f "best[height<=720]" --impersonate chrome --cookies-from-browser chromium'
 alias py="python"
+alias c=" clear"
 
 
 
@@ -123,10 +123,8 @@ alias py="python"
 
 alias clear="clear"
 # Enable prompt expansion so functions run inside the prompt
-setopt PROMPT_SUBST
 
 # Enable vim keybindings
-bindkey -v
 
 # Function to build the conditional arrow and exit code
 build_arrow() {
@@ -146,7 +144,6 @@ build_arrow() {
 autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats '(%b)'
-setopt PROMPT_SUBST
 
 PROMPT='%F{#9CCFD8}%B%~%b%f $(build_arrow) '
 setopt SHARE_HISTORY
