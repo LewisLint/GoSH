@@ -37,6 +37,7 @@ func main() {
 
 	historyPath := filepath.Join(home, ".gosh_history")
 	history, err := loadHistory(historyPath)
+
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "load command history: ", err)
 		return
