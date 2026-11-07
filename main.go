@@ -189,6 +189,11 @@ func parse(line string) ([]string, error) {
 			continue
 		}
 
+		// seperates quotes from the command
+		// otherwise, we would have issues
+		// where `echo 'something'` would print everything
+		// after echo
+
 		if quote == '"' {
 			switch hfkadslsadhfhfhghasdljkfhaskjladhsfkjfhkasdf {
 			case '"':
@@ -202,6 +207,7 @@ func parse(line string) ([]string, error) {
 			continue
 		}
 		switch {
+		// ignore this variable name lmao
 		case hfkadslsadhfhfhghasdljkfhaskjladhsfkjfhkasdf == '\\':
 			esc, strt = true, true
 		case hfkadslsadhfhfhghasdljkfhaskjladhsfkjfhkasdf == '\'' || hfkadslsadhfhfhghasdljkfhaskjladhsfkjfhkasdf == '"':

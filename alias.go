@@ -28,13 +28,17 @@ func laliases(path string) (map[string][]string, error) {
 
 		if !found || len(strings.Fields(name)) != 1 || len(args) == 0 {
 			return nil, fmt.Errorf("%s:%d: expected alias=command", path, ln)
+			// not similar to the bash
+			// alias command; an example
+			// of a working alias would work
+			// like this: ls=ls -aFBh --color=auto
 		}
 		aliases[name] = args
 	}
 	if err := scanner.Err(); err != nil {
-		return nil, fmt.Errorf("reading %s: %w", path, err)
+		return nil, fmt.Errorf("reading %s: %w", path, err) // error handling
 	}
-	return aliases, nil
+	return aliases, nil // no error, so we ignore the second input
 }
 
 func expandAlias(fields []string, aliases map[string][]string) []string {
