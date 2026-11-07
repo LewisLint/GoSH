@@ -29,6 +29,11 @@ func readLine(prompt, linePrompt string, history *[]string) (result string, resu
 		return "", fmt.Errorf("enable character input: %w", err)
 	}
 	defer func() {
+		// if there is a error
+		// that results in a crash
+		// we just fix everything and
+		// return to default terminal settings
+
 		if err := ioctl(fd, syscall.TCSETS, &original); err != nil {
 			restoreErr := fmt.Errorf("restore terminal settings: %w", err)
 			if resultErr == nil {
@@ -49,6 +54,7 @@ func readLine(prompt, linePrompt string, history *[]string) (result string, resu
 		ch, ok, err := readInputByte(fd)
 		if err != nil {
 			return "", fmt.Errorf("read terminal input: %w", err)
+			// this is a very rare error, but still possible
 		}
 		if !ok {
 			continue
